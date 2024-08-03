@@ -1,74 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Air Quality Chart</title>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+<head>
+  <title>Air Quality Comparison</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawChart);
 
-      async function fetchData() {
-        const url = 'http://localhost:3000/api/measurements';
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+    async function fetchData() {
+      const url = 'http://localhost:3000/api/measurements?countries=IN,US,GB'; // Example countries
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    }
 
-        if (response.ok) {
-          const data = await response.json();
-          return data.results;
-        } else {
-          console.error('Error fetching data:', response.status);
-          return [];
+    function aggregateDataByCountry(data) {
+      return data.map(({ country, data: measurements }) => {
+        const averagePM25 = measurements.reduce((acc, item) => acc + item.value, 0) / measurements.length;
+        return [country, averagePM25];
+      });
+    }
+
+    async function drawChart() {
+      const data = await fetchData();
+      const aggregatedData = aggregateDataByCountry(data);
+
+      const formattedData = [['Country', 'Average PM2.5']].concat(aggregatedData);
+
+      const dataTable = google.visualization.arrayToDataTable(formattedData);
+
+      const options = {
+        title: 'Average PM2.5 Concentration by Country',
+        chartArea: {width: '50%'},
+        hAxis: {
+          title: 'PM2.5 Concentration (µg/m³)',
+          minValue: 0
+        },
+        vAxis: {
+          title: 'Country'
         }
-      }
+      };
 
-      function aggregateDataByDate(measurements) {
-        const aggregatedData = {};
-
-        measurements.forEach(item => {
-          const date = item.date.local.split('T')[0]; // Extracting the the date part
-          const pm25 = item.value;
-
-          if (!aggregatedData[date]) {
-            aggregatedData[date] = { count: 0, total: 0 };
-          }
-
-          aggregatedData[date].count += 1;
-          aggregatedData[date].total += pm25;
-        });
-
-        return Object.entries(aggregatedData).map(([date, { count, total }]) => [new Date(date), total / count]);
-      }
-
-      async function drawChart() {
-        const measurements = await fetchData();
-        // fetch data definerd above
-        const aggregatedData = aggregateDataByDate(measurements);
-
-        // Prepare data for Google Charts
-        const formattedData = [['Date', 'PM2.5']].concat(aggregatedData);
-
-        // Create the data table
-        const dataTable = google.visualization.arrayToDataTable(formattedData);
-
-        // Set chart options
-        const options = {
-          title: 'Daily Average Air Quality (PM2.5) in India',
-          hAxis: {title: 'Date'},
-          vAxis: {title: 'PM2.5 Concentration (µg/m³)'},
-          legend: 'none'
-        };
-
-        // Instantiate and draw the chart
-        const chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-        chart.draw(dataTable, options);
-      }
-    </script>
-  </head>
-  <body>
-    <div id="chart_div" style="width: 100%; height: 500px;"></div>
-  </body>
+      const chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+      chart.draw(dataTable, options);
+    }
+  </script>
+</head>
+<body>
+  <div id="chart_div" style="width: 100%; height: 500px;"></div>
+</body>
 </html>
