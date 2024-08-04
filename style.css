@@ -4,10 +4,33 @@ body {
   padding: 0;
   background: #212121;
   color: #333;
-  overflow-y: scroll; /* Ensure the scrollbar is always visible */
+  overflow-y: scroll; 
 }
 
+.navbar {
+  background-color: rgba(68, 68, 68, 0.8);
+}
+
+.sasa{
+  columns: white;
+  background-color: #4caf50;
+}
+
+.navbar-nav .nav-link {
+  color: white;
+}
+
+.gren{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: large;
+  margin-top: 5em;
+  background-color: #4caf50;
+  padding: 5rem;
+  margin-bottom: 2em;
+  row-gap: 5em;
+}
 h1 {
+  font-family: 'Open Sans', sans-serif;
   background-color: #4caf50;
   color: white;
   text-align: center;
@@ -32,7 +55,6 @@ h2 {
   transition: left 1s ease-in-out 0.5s, opacity 1s ease-in-out 0.5s;
 }
 
-/* Canvas container styles */
 canvas {
   display: block;
   margin: 0 auto;
@@ -79,4 +101,20 @@ body {
 .slide-in {
   left: 0;
   opacity: 1;
+}
+
+p.important {
+  font-family: Lato, sans-serif;
+}
+
+h2#t1 {
+  font-family: Merriweather, serif;
+}
+
+h2#t2 {
+  font-family: Roboto, sans-serif;
+}
+
+h2#t3 {
+  font-family: Oswald, sans-serif;
 }
