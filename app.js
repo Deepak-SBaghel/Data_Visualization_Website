@@ -13,39 +13,35 @@ async function main() {
       "https://api.openaq.org/v2/measurements?country=US&limit=1000"
     );
     const indiaMonthly = await AQData(
-      "https://api.openaq.org/v2/measurements?country=IN&date_from=2023-07-01&date_to=2023-07-31&limit=1000"
+      "https://api.openaq.org/v2/measurements?country=IN&date_from=2024-07-01&date_to=2024-07-31&limit=1000"
     );
 
     console.log(indiaData);
     console.log(usData);
     console.log(indiaMonthly);
 
-    let count = 0;
+    const validIndiaValues = indiaData.results
+      .map((val) => val.value)
+      .filter((val) => val >= 0);
     const avgIndia =
-      indiaData.results.reduce((sum, val) => {
-        if (val.value <= -900) {
-          count += 1;
-          return sum;
-        } else {
-          return sum + val.value;
-        }
-      }, 0) /
-      (indiaData.results.length - count);
-    console.log(count);
+      validIndiaValues.reduce((sum, val) => sum + val, 0) /
+      validIndiaValues.length;
 
+    const validUsValues = usData.results
+      .map((val) => val.value)
+      .filter((val) => val >= 0);
     const avgUs =
-      usData.results.reduce((sum, val) => sum + val.value, 0) /
-      usData.results.length;
+      validUsValues.reduce((sum, val) => sum + val, 0) / validUsValues.length;
 
     const countryLabels = ["India", "US"];
     const countryData = [avgIndia, avgUs];
 
-    const indiaLabels = indiaMonthly.results.map((val) =>
-      new Date(val.date.utc).toLocaleDateString()
-    );
-    const indiaAirQualityData = indiaMonthly.results.map(
-      (val) => val.value
-    );
+    const indiaLabels = indiaMonthly.results
+      .map((val) => new Date(val.date.utc).toLocaleDateString())
+      .filter((val, index) => indiaMonthly.results[index].value >= 0);
+    const indiaAirQualityData = indiaMonthly.results
+      .map((val) => val.value)
+      .filter((val) => val >= 0);
 
     // Create charts
     new Chart(
@@ -101,9 +97,8 @@ async function main() {
       }
     );
 
-    document.querySelector('h1').classList.add('slide-in');
-    document.querySelectorAll('h2').forEach(h2 => h2.classList.add('slide-in'));
-
+    document.querySelector("h1").classList.add("slide-in");
+    document.querySelectorAll("h2").forEach((h2) => h2.classList.add("slide-in"));
   } catch (error) {
     console.error("Error fetching or processing data", error);
   }
