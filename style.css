@@ -110,19 +110,3 @@ body {
   left: 0;
   opacity: 1;
 }
-
-p.important {
-  font-family: Lato, sans-serif;
-}
-
-h2#t1 {
-  font-family: Merriweather, serif;
-}
-
-h2#t2 {
-  font-family: Roboto, sans-serif;
-}
-
-h2#t3 {
-  font-family: Oswald, sans-serif;
-}
