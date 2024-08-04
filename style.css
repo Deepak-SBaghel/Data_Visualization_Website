@@ -47,9 +47,11 @@ h1 {
 
 .gresn{
   color: rgb(28, 188, 28);
-  padding-top: 2rem;
-  padding: 4rem;
+  padding-top: 1rem;
+  padding: 1rem;
   text-align: center ;
+  margin-left: 4rem;
+  margin-right: 4rem;
 
 }
 
@@ -111,4 +113,9 @@ body {
 .slide-in {
   left: 0;
   opacity: 1;
+}
+
+#t1{
+  margin-top: 2rem;
+  padding-top: 2rem;
 }
