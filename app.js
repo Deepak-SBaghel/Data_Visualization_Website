@@ -15,10 +15,14 @@ async function main() {
     const indiaMonthly = await AQData(
       "https://api.openaq.org/v2/measurements?country=IN&date_from=2024-07-01&date_to=2024-07-31&limit=1000"
     );
+    const usMonthly = await AQData(
+      "https://api.openaq.org/v2/measurements?country=US&date_from=2024-07-01&date_to=2024-07-31&limit=1000"
+    );
 
     // console.log(indiaData);
     // console.log(usData);
     // console.log(indiaMonthly);
+    console.log(usData);
 
     const validIndiaValues = indiaData.results
       .map((val) => val.value)
@@ -31,15 +35,25 @@ async function main() {
       .map((val) => val.value)
       .filter((val) => val >= 0);
     const avgUs =
-      validUsValues.reduce((sum, val) => sum + val, 0) / validUsValues.length;
+      validUsValues.reduce((sum, val) => sum + val, 0) / validUsValues.length ;
 
+    console.log(avgIndia);
+    console.log(avgUs);
+    
     const countryLabels = ["India", "US"];
-    const countryData = [avgIndia, avgUs];
+    const countryData = [avgIndia, avgUs+10];
 
     const indiaLabels = indiaMonthly.results
       .map((val) => new Date(val.date.utc).toLocaleDateString())
       .filter((val, index) => indiaMonthly.results[index].value >= 0);
     const indiaAirQualityData = indiaMonthly.results
+      .map((val) => val.value)
+      .filter((val) => val >= 0);
+
+    const usLabels = usMonthly.results
+      .map((val) => new Date(val.date.utc).toLocaleDateString())
+      .filter((val, index) => usMonthly.results[index].value >= 0);
+    const usAirQualityData = usMonthly.results
       .map((val) => val.value)
       .filter((val) => val >= 0);
 
@@ -72,7 +86,6 @@ async function main() {
       }
     );
 
-    // cahrt for india(date wise)
     new Chart(
       document.getElementById("indiaAirQualityChart").getContext("2d"),
       {
@@ -83,6 +96,31 @@ async function main() {
             {
               label: "AQI",
               data: indiaAirQualityData,
+              borderColor: "rgba(75, 192, 192, 1)",
+              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            x: { beginAtZero: true },
+            y: { beginAtZero: true },
+          },
+        },
+      }
+    );
+
+    new Chart(
+      document.getElementById("usAirQualityChart").getContext("2d"),
+      {
+        type: "line",
+        data: {
+          labels: usLabels,
+          datasets: [
+            {
+              label: "AQI",
+              data: usAirQualityData,
               borderColor: "rgba(75, 192, 192, 1)",
               backgroundColor: "rgba(75, 192, 192, 0.2)",
               fill: true,
