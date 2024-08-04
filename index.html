@@ -15,7 +15,7 @@
   </head>
   <body>
     
-    <nav class="d-flex justify-content-center navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="d-flex justify-content-center navbar navbar-expand-lg sticky-top">
       <div class="form-inline">
         <button
           class="navbar-toggler"
@@ -29,7 +29,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="#home">
               <img
                 src="./logo.svg"
                 alt="Bootstrap"
@@ -39,19 +39,19 @@
             </a>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#countryComparisonChart">Home</a>
+              <a class="nav-link active" aria-current="page" href="#countryComparisonChart"style="color: rgb(255, 255, 255);">Comparision</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#indiaAirQualityChart">Features</a>
+              <a class="nav-link" href="#indiaAirQualityChart"style="color: rgb(255, 255, 255);">India</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#usAirQualityChart">Pricing</a>
+              <a class="nav-link" href="#usAirQualityChart"style="color: rgb(255, 255, 255);">US</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <h1>Air Quality Comparison</h1>
+    <h1 id="home">Air Quality Comparison</h1>
     <h2>Comparison between Countries</h2>
     <canvas id="countryComparisonChart" width="800" height="400"></canvas>
 
@@ -60,6 +60,23 @@
 
     <h2>USA Air Quality (Past Month)</h2>
     <canvas id="usAirQualityChart" width="800" height="400"></canvas>
+
+    <div class="container">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 " style="color: rgb(255, 255, 255);">© 2024 Company, Inc</p>
+    
+        <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+          <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+    
+        <ul class="nav col-md-4 justify-content-end">
+          <li class="nav-item"><a href="#home" class="nav-link px-2 "style="color: rgb(255, 255, 255);">Home</a></li>
+          <li class="nav-item"><a href="#countryComparisonChart" class="nav-link px-2 "style="color: rgb(255, 255, 255);">comparision</a></li>
+          <li class="nav-item"><a href="#indiaAirQualityChart" class="nav-link px-2 "style="color: rgb(255, 255, 255);">India</a></li>
+          <li class="nav-item"><a href="#usAirQualityChart" class="nav-link px-2 "style="color: rgb(255, 255, 255);">Usa</a></li>
+        </ul>
+      </footer>
+    </div>
 
     <script src="app.js"></script>
     <script

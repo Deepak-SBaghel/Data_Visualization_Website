@@ -12,6 +12,11 @@ async function main() {
     const usData = await AQData(
       "https://api.openaq.org/v2/measurements?country=US&limit=1000"
     );
+    const cnData = await AQData(
+      "https://api.openaq.org/v2/measurements?country=CN&limit=1000"
+    );
+
+
     const indiaMonthly = await AQData(
       "https://api.openaq.org/v2/measurements?country=IN&date_from=2024-07-01&date_to=2024-07-31&limit=1000"
     );
@@ -22,7 +27,7 @@ async function main() {
     // console.log(indiaData);
     // console.log(usData);
     // console.log(indiaMonthly);
-    console.log(usData);
+    console.log(cnData);
 
     const validIndiaValues = indiaData.results
       .map((val) => val.value)
@@ -36,12 +41,22 @@ async function main() {
       .filter((val) => val >= 0);
     const avgUs =
       validUsValues.reduce((sum, val) => sum + val, 0) / validUsValues.length ;
+    
+      const validCnValues = cnData.results
+      .map((val) => val.value)
+      .filter((val) => val >= 0);
+      console.log(validCnValues);
+      
+    const avgCn =
+      validCnValues.reduce((sum, val) => sum + val, 0) / validCnValues.length ;
 
     console.log(avgIndia);
     console.log(avgUs);
+    console.log(avgCn);
     
-    const countryLabels = ["India", "US"];
-    const countryData = [avgIndia, avgUs+10];
+
+    const countryLabels = ["India", "US", "China"];
+    const countryData = [avgIndia, avgUs+10, avgCn];
 
     const indiaLabels = indiaMonthly.results
       .map((val) => new Date(val.date.utc).toLocaleDateString())
