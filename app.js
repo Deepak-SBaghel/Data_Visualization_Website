@@ -1,5 +1,3 @@
-// const openAQBaseURL = 'https://api.openaq.org/v2/measurements';
-
 async function AQData(url) {
   const response = await fetch(url);
   return response.json();
@@ -7,7 +5,7 @@ async function AQData(url) {
 
 async function main() {
   try {
-    // Fetch data
+    // Fetch
     const indiaData = await AQData(
       "https://api.openaq.org/v2/measurements?country=IN&limit=1000"
     );
@@ -22,25 +20,23 @@ async function main() {
     console.log(usData);
     console.log(indiaMonthly);
 
-    // average AQ for the comparision
     let count = 0;
     const avgIndia =
       indiaData.results.reduce((sum, val) => {
         if (val.value <= -900) {
-            count = +1;
-            return 0;
+          count += 1;
+          return sum;
         } else {
           return sum + val.value;
         }
       }, 0) /
       (indiaData.results.length - count);
-      console.log(count);
-      
+    console.log(count);
+
     const avgUs =
       usData.results.reduce((sum, val) => sum + val.value, 0) /
       usData.results.length;
 
-    // Prepare data for charts
     const countryLabels = ["India", "US"];
     const countryData = [avgIndia, avgUs];
 
@@ -104,6 +100,10 @@ async function main() {
         },
       }
     );
+
+    document.querySelector('h1').classList.add('slide-in');
+    document.querySelectorAll('h2').forEach(h2 => h2.classList.add('slide-in'));
+
   } catch (error) {
     console.error("Error fetching or processing data", error);
   }
