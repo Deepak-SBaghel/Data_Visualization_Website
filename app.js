@@ -111,7 +111,7 @@ async function main() {
             {
               label: "AQI",
               data: indiaAirQualityData,
-              borderColor: "rgba(75, 192, 192, 1)",
+              borderColor: "rgba(76, 175, 80, 1)",
               backgroundColor: "rgba(75, 192, 192, 0.2)",
               fill: true,
             },
@@ -136,7 +136,7 @@ async function main() {
             {
               label: "AQI",
               data: usAirQualityData,
-              borderColor: "rgba(75, 192, 192, 1)",
+              borderColor: "rgba(76, 175, 80, 1)",
               backgroundColor: "rgba(75, 192, 192, 0.2)",
               fill: true,
             },
